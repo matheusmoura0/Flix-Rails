@@ -13,4 +13,17 @@ class ApplicationController < ActionController::Base
       end
     
         helper_method :current_user
+
+      def require_correct_user
+        @user = User.find(params[:id])
+        unless current_user == @user
+            redirect_to root_url, alert: "Unauthorized access!"
+        end
+      end
+
+      def current_user?(user)
+        current_user == user
+      end
+
+        helper_method :current_user?
     end
